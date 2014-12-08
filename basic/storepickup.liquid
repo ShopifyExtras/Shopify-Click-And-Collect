@@ -1,0 +1,33 @@
+<div id="storePickup">
+  <h2>Click & Collect</h2>
+  
+    {% for item in cart.items %}
+        {% if item.product.type == 'Store Pickup' %}  
+            {% capture store_pickup_id %}{{ item.variant_id  }}{% endcapture %}    
+        {% endif %}
+    {% endfor %}
+  	
+    <input type="hidden" id="selectedStorePickupId" value="{{ store_pickup_id }}">
+  
+    <select id="storePickupVariantId">
+      <option value="">None Selected</option>
+      {% for product in collections['all'].products %}
+        {% if product.type == 'Store Pickup' %}
+          {% for variant in product.variants %}
+                
+      	    {% capture variant_id %}{{ variant.id  }}{% endcapture %}    
+
+      		{% if variant_id == store_pickup_id %}
+                  <option value="{{ variant.id }}" selected="selected">{{ variant.title }}</option>
+              {% else %}
+                  <option value="{{ variant.id }}">{{ variant.title }}</option>
+              {% endif %}
+      
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+    </select>
+
+    <input type="submit" value="Save Pickup Location" id="savePickupLocation" class="btn">
+
+</div>
