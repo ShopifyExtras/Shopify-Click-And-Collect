@@ -38,12 +38,18 @@ $( document ).ready(function() {
         var item = {};
         item[$("#selectedClickAndCollectId").val()] = 0;
           
-        // Remove existing item. 
-        var response = jQuery.post('/cart/update.js', { "updates": item });
-
-        // Remove existing_pickup_id. 
-        $("#selectedClickAndCollectId").val("");
-      } 
+        $.ajax({
+            url: "/cart/update.js",
+            type: 'POST',
+            data: { "updates": item },
+            complete: function(msg){ 
+                if($("#selectedClickAndCollectId").val() == "none") {
+                    window.location.replace("/cart");
+                }	
+            }
+        });
+       
+      }
   }
 
   $("#saveClickAndCollectLocation").on("click", function() {
